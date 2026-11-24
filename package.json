@@ -1,0 +1,25 @@
+{
+  "name": "contextflow",
+  "version": "0.1.0",
+  "description": "Hand a coding task from one agent CLI to the next (Claude Code, Codex, ...) when usage limits run out, so the work keeps going.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "cf": "dist/src/cli.js",
+    "contextflow": "dist/src/cli.js"
+  },
+  "files": ["dist/src", "README.md", "LICENSE", "docs"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test \"dist/test/**/*.test.js\"",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "demo": "npm run build && node dist/src/demo.js",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": ["claude-code", "codex", "ai-agents", "cli", "rate-limit", "handoff"],
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.6.0"
+  }
+}
