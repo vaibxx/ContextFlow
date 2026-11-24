@@ -110,6 +110,16 @@ Everything ContextFlow keeps lives in `.contextflow/` in your project, which is 
 - **Use your own accounts.** ContextFlow switches between different providers you're subscribed to. Don't use it to rotate multiple accounts on one provider; that likely breaks their terms.
 - **Limit messages change.** If an agent changes its wording, update the patterns in its adapter (and send a PR).
 
+## Background and references
+
+ContextFlow's design draws on published work on agents, memory and long contexts:
+
+- **Hand off a brief, not the transcript.** N. F. Liu et al., ["Lost in the Middle: How Language Models Use Long Contexts"](https://aclanthology.org/2024.tacl-1.9/), *TACL* 12, 157–173, 2024. Models use information in the middle of long inputs less reliably, which is why the next agent gets a compact brief (task, progress notes, commits, diff, final actions) instead of the previous agent's full history.
+- **Memory outside the context window.** C. Packer et al., ["MemGPT: Towards LLMs as Operating Systems"](https://arxiv.org/abs/2310.08560), arXiv 2023. MemGPT moves information between a model's context and external storage. ContextFlow keeps session state in `.contextflow/` and in git checkpoints, so the work outlives any single agent's context.
+- **Written notes carry progress between attempts.** N. Shinn et al., ["Reflexion: Language Agents with Verbal Reinforcement Learning"](https://arxiv.org/abs/2303.11366), NeurIPS 2023. Reflexion agents keep reflective text in memory to do better on later trials. ContextFlow asks every agent to keep `.contextflow/progress.md` (Plan / Done / Next) current, so a sudden cutoff still leaves a trail.
+- **Structured handoffs between agents.** S. Hong et al., ["MetaGPT: Meta Programming for A Multi-Agent Collaborative Framework"](https://arxiv.org/abs/2308.00352), ICLR 2024. MetaGPT passes standardized documents between role agents. ContextFlow's [handoff spec](docs/handoff-spec.md) plays that role between different vendors' coding agents.
+- **Coding agents working in real repositories.** J. Yang et al., ["SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering"](https://arxiv.org/abs/2405.15793), NeurIPS 2024. SWE-agent shows how much the interface matters when models edit code and run tests. ContextFlow sits one level up: it orchestrates existing agent CLIs and keeps their work going across usage limits.
+
 ## Contributing
 
 New agents are one file each. See [CONTRIBUTING.md](CONTRIBUTING.md).
